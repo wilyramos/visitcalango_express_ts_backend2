@@ -48,10 +48,12 @@ export class PlaceController {
         try {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 res.status(400).json("Invalid id");
+                return;
             }
             const place = await Place.findById(id);
             if (!place) {
                 res.status(404).json("Place not found");
+                return;
             }
             res.status(200).json(place);
         } catch (error) {
