@@ -66,13 +66,15 @@ export class PlaceController {
 
         try {
             if (!mongoose.Types.ObjectId.isValid(id)) {
-                res.status(400).json("Invalid id");
+                res.status(400).json({message: "Invalid id"});
+                return;
             }
 
             // 
             const place = await Place.findById(id);
             if (!place) {
-                res.status(404).json("Place not found");
+                res.status(404).json({message: "Place not found"});
+                return;
             }
 
             place.name = name || place.name;
@@ -87,7 +89,7 @@ export class PlaceController {
 
         } catch (error) {
             // console.log(error);
-            res.status(500).json("Internal server error");
+            res.status(500).json({message: "Internal server error"});
         }
 
     }
@@ -120,7 +122,8 @@ export class PlaceController {
         form.parse(req, async (error, fields, files) => {
             if (error) {
                 console.error("Error al procesar los archivos:", error);
-                return res.status(400).json({ message: 'Error al procesar los archivos' });
+                res.status(400).json({ message: 'Error al procesar los archivos' });
+                return;
             }
     
             // Verifica si se reciben las imágenes
@@ -130,7 +133,8 @@ export class PlaceController {
             const images = Array.isArray(files.images) ? files.images : [files.images]; 
             
             if (images.length > 5) {
-                return res.status(400).json({ message: 'No se pueden subir más de 5 imágenes' });
+                res.status(400).json({ message: 'No se pueden subir más de 5 imágenes' });
+                return;
             }
     
             try {
