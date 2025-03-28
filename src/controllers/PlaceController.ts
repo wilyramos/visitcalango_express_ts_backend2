@@ -172,7 +172,8 @@ export class PlaceController {
     
             } catch (error) {
                 console.error("Error al subir las imágenes:", error);
-                return res.status(500).json({ msg: 'Error al subir las imágenes' });
+                res.status(500).json({ msg: 'Error al subir las imágenes' });
+                return;
             }
         });
     };
